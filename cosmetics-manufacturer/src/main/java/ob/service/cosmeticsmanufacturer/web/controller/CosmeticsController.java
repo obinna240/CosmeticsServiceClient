@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.UUID;
 
 @RequestMapping("/api/v1/cosmetics")
@@ -34,8 +34,9 @@ public class CosmeticsController {
         return new ResponseEntity<>(cosmeticsService.getCosmeticsById(cosmeticsId), HttpStatus.OK);
     }
 
+    //potentially use @Validated (spring validation) or @Valid fom javax
     @PostMapping
-    public ResponseEntity postNewCosmetics(@RequestBody CosmeticsDto cosmeticsDto) {
+    public ResponseEntity postNewCosmetics(@Validated @RequestBody CosmeticsDto cosmeticsDto) {
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("location", "api/v1/cosmetics/"+cosmeticsDto.getId().toString());
@@ -43,7 +44,7 @@ public class CosmeticsController {
     }
 
     @PutMapping("/{cosmeticsId}")
-    public ResponseEntity putCosmetics(@PathVariable("cosmeticsId") UUID cosmeticsId, @RequestBody CosmeticsDto cosmeticsDto) {
+    public ResponseEntity putCosmetics(@PathVariable("cosmeticsId") UUID cosmeticsId, @Validated @RequestBody CosmeticsDto cosmeticsDto) {
 
         cosmeticsService.update(cosmeticsId, cosmeticsDto);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
