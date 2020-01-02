@@ -2,16 +2,17 @@ package ob.service.cosmeticsmanufacturer.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.persistence.Version;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -22,17 +23,18 @@ import java.util.UUID;
  */
 
 @Builder
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "cosmetics")
 public class Cosmetics {
 
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(length = 40, columnDefinition = "varchar", updatable = false, nullable = false)
+    @Column(length = 40, columnDefinition = "varchar(36)", updatable = false, nullable = false)
+    @Type(type="org.hibernate.type.UUIDCharType")
     private UUID id;
     private String cosmeticName;
     private String cosmeticType;
