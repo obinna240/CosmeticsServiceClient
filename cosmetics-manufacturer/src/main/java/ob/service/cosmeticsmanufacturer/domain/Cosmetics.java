@@ -1,5 +1,7 @@
 package ob.service.cosmeticsmanufacturer.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.deser.std.UUIDDeserializer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -35,6 +37,7 @@ public class Cosmetics {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(length = 40, columnDefinition = "varchar(36)", updatable = false, nullable = false)
     @Type(type="org.hibernate.type.UUIDCharType")
+    @JsonDeserialize(using= UUIDDeserializer.class) //we could use our own custom deserializer here
     private UUID id;
     private String cosmeticName;
     private String cosmeticType;

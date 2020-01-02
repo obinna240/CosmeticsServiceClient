@@ -1,6 +1,7 @@
 package ob.service.cosmeticsmanufacturer.web.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import ob.service.cosmeticsmanufacturer.domain.Cosmetics;
 import ob.service.cosmeticsmanufacturer.services.CosmeticsService;
 import ob.service.cosmeticsmanufacturer.web.model.CosmeticsDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,7 @@ public class CosmeticsController {
         return new ResponseEntity<>(cosmeticsService.save(cosmeticsDto), httpHeaders, HttpStatus.CREATED);
     }
 
+
     @PutMapping("/{cosmeticsId}")
     public ResponseEntity putCosmetics(@PathVariable("cosmeticsId") UUID cosmeticsId, @Validated @RequestBody CosmeticsDto cosmeticsDto) {
 
@@ -57,4 +59,33 @@ public class CosmeticsController {
     public void deleteCosmetics(@PathVariable("cosmeticsId") UUID cosmeticsId) {
         cosmeticsService.delete(cosmeticsId);
     }
+
+    /**
+     * Select directly from DB
+     * @param cosmetic
+     * @return
+     */
+    @PostMapping("/postCosmetic")
+    public ResponseEntity postCosmeticToDB(@RequestBody Cosmetics cosmetic){
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("location", "api/v1/cosmetics/"+cosmetic.getId().toString());
+        return new ResponseEntity<>(cosmeticsService.save(cosmetic), httpHeaders, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/getCosmetic/{cosmeticId}")
+    public ResponseEntity getCosmeticToDB(@PathVariable("cosmeticId") UUID cosmeticId) {
+        return new ResponseEntity<>(cosmeticsService.getCosmeticsObjById(cosmeticId), HttpStatus.OK);
+    }
+
+    @GetMapping("/getCosmeticByType/{cosmeticType}")
+    public ResponseEntity getCosmeticByType(@PathVariable("cosmeticType") String cosmeticType) {
+        return new ResponseEntity<>(cosmeticsService.getCosmeticsObjByType(cosmeticType), HttpStatus.OK);
+    }
+
+
+    @GetMapping("/getCosmeticByName/{cosmeticName}")
+    public ResponseEntity getCosmeticByName(@PathVariable("cosmeticName") String cosmeticName) {
+        return new ResponseEntity<>(cosmeticsService.getCosmeticsObjByName(cosmeticName), HttpStatus.OK);
+    }
+
 }
