@@ -53,14 +53,28 @@ public final class Predicate {
             name = "predicate_content",
             joinColumns = @JoinColumn(name = "predicate_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "content_id", referencedColumnName = "id"))
-
     @ManyToMany(targetEntity = Content.class, fetch = FetchType.LAZY,
             cascade = {
 //                    CascadeType.ALL
                     CascadeType.PERSIST,
                     CascadeType.MERGE
             })
-    private Set<Content> content = new HashSet<>();;
+    private Set<Content> content = new HashSet<>();
+
+    public Set<Attribute> getAttribute() {
+        return attribute;
+    }
+
+    @JoinTable(
+            name = "predicate_attribute",
+            joinColumns = @JoinColumn(name = "predicate_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "attribute_id", referencedColumnName = "id"))
+    @ManyToMany(targetEntity = Attribute.class, fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    private Set<Attribute> attribute = new HashSet<>();
 
 
     public String getId() {
