@@ -1,34 +1,49 @@
 package ob.service.cosmeticsmanufacturer.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "cosmeticsContent")
+@Table
 public final class Content {
 
+    //    @Id
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
     @Column(columnDefinition = "varchar(400)", unique = true)
-    private final String question;
+    private String question;
 
     @Column(columnDefinition = "text", unique = true)
-    private final String answer;
+    private String answer;
 
-    @ManyToMany
-    Set<Predicate> predicate;
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            }, mappedBy = "content")
+    private Set<Predicate> predicate = new HashSet<>();
 
-    public Content(String question, String answer) {
+//    public Set<Predicate> getPredicate() {
+//        return predicate;
+//    }
+
+    public Content(Integer id, String question, String answer) {
+        this.id = id;
         this.question = question;
         this.answer = answer;
+    }
+
+    public Content(){
+
     }
 
     private String getAnswer(){
@@ -43,6 +58,7 @@ public final class Content {
     private Integer getId(){
         return id;
     }
+
 
 
 }

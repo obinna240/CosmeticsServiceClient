@@ -22,11 +22,11 @@ public class ContentLoader implements CommandLineRunner {
 
     private void loadCosmetics(){
         if(contentRepository.count() == 0 ){
-            contentRepository.save(new Content("This is a test?", "This is the answer"));
-
-            contentRepository.save(new Content("This is a test2?", "This is the answer2"));
-
-            contentRepository.save(new Content("This is a test3?", "This is the answer3"));
+//            contentRepository.save(new Content(1, "This is a test?", "This is the answer"));
+//
+//            contentRepository.save(new Content(2, "This is a test2?", "This is the answer2"));
+//
+//            contentRepository.save(new Content(3, "This is a test3?", "This is the answer3"));
 
         }
     }
